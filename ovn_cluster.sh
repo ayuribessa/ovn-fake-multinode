@@ -706,6 +706,7 @@ function start() {
             if [ "$ENABLE_SSL" == "yes" ]; then
                 SSL_ARGS="--ovn-controller-ssl-key=${SSL_CERTS_PATH}/ovn-privkey.pem --ovn-controller-ssl-cert=${SSL_CERTS_PATH}/ovn-cert.pem --ovn-controller-ssl-ca-cert=${SSL_CERTS_PATH}/pki/switchca/cacert.pem"
             fi
+            ${RUNC_CMD} exec ${name} /usr/share/openvswitch/scripts/ovs-ctl stop
             ${RUNC_CMD} exec ${name} /usr/share/openvswitch/scripts/ovs-ctl start --system-id=${name}
             ${RUNC_CMD} exec ${name} ${OVNCTL_PATH} start_controller ${SSL_ARGS}
         done
@@ -716,6 +717,7 @@ function start() {
         if [ "$ENABLE_SSL" == "yes" ]; then
             SSL_ARGS="--ovn-controller-ssl-key=${SSL_CERTS_PATH}/ovn-privkey.pem --ovn-controller-ssl-cert=${SSL_CERTS_PATH}/ovn-cert.pem --ovn-controller-ssl-ca-cert=${SSL_CERTS_PATH}/pki/switchca/cacert.pem"
         fi
+        ${RUNC_CMD} exec ${name} /usr/share/openvswitch/scripts/ovs-ctl stop
         ${RUNC_CMD} exec ${name} /usr/share/openvswitch/scripts/ovs-ctl start --system-id=${name}
         ${RUNC_CMD} exec ${name} ${OVNCTL_PATH} start_controller ${SSL_ARGS}
     done
